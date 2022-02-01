@@ -1,6 +1,8 @@
 DATE = $(shell date)
 PYTHON = $(shell which python)
 TOPDIR = $(shell pwd)
+POSTGRES_VERSION = 14.1
+POSTGRES_IMAGE = postgres:$(POSTGRES_VERSION)
 
 # PLATFORMS to be used in the setup routines and test-all target
 PLATFORMS = rhel6 rhel7 rhel8 centos6 centos7 centos8
@@ -142,8 +144,8 @@ copy-qpc-tools:
 # Internal subcommands that the user should not call
 download-postgres:
 	mkdir -p test/packages
-	docker pull postgres:14.1
-	cd test/packages;docker save -o postgres.14.1.tar postgres:14.1
+	docker pull $(POSTGRES_IMAGE)
+	cd test/packages;docker save -o postgres.$(POSTGRES_VERSION).tar $(POSTGRES_IMAGE)
 
 setup-local-online: create-test-dirs copy-qpc-tools-local copy-vm-helper-files copy-config
 
